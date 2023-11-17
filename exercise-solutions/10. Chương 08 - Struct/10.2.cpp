@@ -3,6 +3,7 @@
 // - show_menu()
 // - Xem danh sách sản phẩm
 // - Thêm sản phẩm mới
+// - Xóa sản phẩm
 
 #include <iostream>
 #include <string>
@@ -41,6 +42,7 @@ struct Product
 int show_menu();
 void print_products(Product *products, int size);
 void add_product(Product* &products, int &size);
+void delete_product(Product* &products, int &size);
 
 int main()
 {
@@ -64,6 +66,7 @@ int main()
 				break;
 			case 3:
 				// Xoa san pham
+				delete_product(products, size);
 				break;
 			case 0:
 				cout << "Bye bye!";
@@ -138,4 +141,45 @@ void add_product(Product* &products, int &size)
 	size = new_size;
 	
 	cout << "Them san pham thanh cong!" << endl;
+}
+
+void delete_product(Product* &products, int &size)
+{
+	cout << "Nhap ten san pham can xoa: ";
+	string deleted_name;
+	cin.ignore();
+	getline(cin, deleted_name);
+	
+	int deleted_index = -1;
+	for(int i = 0; i < size; i++)
+	{
+		if (!deleted_name.compare(products[i].name))
+		{
+			deleted_index = i;
+			break;
+		}
+	}
+	
+	if (deleted_index == -1)
+	{
+		cout << "Khong tim thay san pham!" << endl;
+		return;
+	}
+	
+	for(int i = deleted_index; i < size - 1; i++)
+	{
+		products[i] = products[i + 1];
+	}
+	size--;
+	
+	Product *tmp_products = new Product[size];
+	for(int i = 0; i < size; i++)
+	{
+		tmp_products[i] = products[i];
+	}
+	
+	delete[] products;
+	products = tmp_products;
+	
+	cout << "Xoa thanh cong!" << endl;
 }
