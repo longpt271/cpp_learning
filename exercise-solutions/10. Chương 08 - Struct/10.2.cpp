@@ -1,6 +1,7 @@
 // Bài 2: Viết chương trình quản lý sản phẩm (tên, đơn giá, số lượng) gồm các chức năng sau:
 // - Nhập xuất dữ liệu struct
 // - show_menu()
+// - Xem danh sách sản phẩm
 
 #include <iostream>
 #include <string>
@@ -36,18 +37,24 @@ struct Product
 };
 
 int show_menu();
+void print_products(Product *products, int size);
 
 
 int main()
 {
+	int size = 0;
+	Product *products = new Product[size];
+	
 	while(true)
 	{
 		int chose = show_menu();
 		
+		system("cls");	// xoa toan bo du lieu tren man hinh console sau khi chon
 		switch(chose)
 		{
 			case 1:
 				// Xem danh sach
+				print_products(products, size);
 				break;
 			case 2:
 				// Them san pham
@@ -90,4 +97,20 @@ int show_menu()
 	cin >> chose;
 	
 	return chose;
- } 
+}
+
+void print_products(Product *products, int size)
+{
+	if(!size)
+	{
+		cout << "Chua co san pham nao." << endl;
+	}
+	else
+	{
+		cout << "Danh sach san pham: " << endl;
+		for(int i = 0; i < size; i++)
+		{
+			cout << products[i] << endl;
+		}
+	}
+}
