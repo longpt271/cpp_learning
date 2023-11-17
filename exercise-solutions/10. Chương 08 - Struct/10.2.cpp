@@ -2,6 +2,7 @@
 // - Nhập xuất dữ liệu struct
 // - show_menu()
 // - Xem danh sách sản phẩm
+// - Thêm sản phẩm mới
 
 #include <iostream>
 #include <string>
@@ -17,6 +18,7 @@ struct Product
 	friend istream& operator>>(istream &is, Product &product)
 	{
 		cout << "Nhap ten: ";
+		is.ignore();  // cho phep getline nhap data
 		getline(is, product.name);
 		cout << "Nhap don gia: ";
 		is >> product.price;
@@ -38,7 +40,7 @@ struct Product
 
 int show_menu();
 void print_products(Product *products, int size);
-
+void add_product(Product* &products, int &size);
 
 int main()
 {
@@ -58,6 +60,7 @@ int main()
 				break;
 			case 2:
 				// Them san pham
+				add_product(products, size);
 				break;
 			case 3:
 				// Xoa san pham
@@ -113,4 +116,26 @@ void print_products(Product *products, int size)
 			cout << products[i] << endl;
 		}
 	}
+}
+
+void add_product(Product* &products, int &size)
+{
+	Product new_product;
+	cout << "Nhap thong tin san pham moi: " << endl;
+	cin >> new_product;
+	
+	int new_size = size + 1;
+	Product *tmp_products = new Product[new_size];
+	
+	for(int i = 0; i < size; i++)
+	{
+		tmp_products[i] = products[i];
+	}
+	tmp_products[new_size - 1] = new_product;
+	
+	delete[] products;
+	products = tmp_products;
+	size = new_size;
+	
+	cout << "Them san pham thanh cong!" << endl;
 }
